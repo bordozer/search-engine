@@ -10,9 +10,16 @@ import org.springframework.stereotype.Service;
 public class DocumentServiceImpl implements DocumentService {
 
     @Override
-    public DocumentDto addNew() {
+    public DocumentDto addNew(final DocumentDto dto) {
         return DocumentDto.builder()
-                .name("")
+                .name("Mock document")
+                .build();
+    }
+
+    @Override
+    public DocumentDto getDocument(final String key) {
+        return DocumentDto.builder()
+                .name("Mock document")
                 .build();
     }
 }
