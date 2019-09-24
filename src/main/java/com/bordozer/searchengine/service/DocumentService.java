@@ -4,7 +4,7 @@ import com.bordozer.searchengine.dto.DocumentDto;
 
 public interface DocumentService {
 
-    DocumentDto addNew(DocumentDto dto);
+    DocumentDto findByKey(String key);
 
-    DocumentDto getDocument(String key);
+    DocumentDto addNew(DocumentDto dto);
 }
