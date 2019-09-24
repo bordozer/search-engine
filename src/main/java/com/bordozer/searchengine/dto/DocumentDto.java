@@ -12,9 +12,13 @@ import org.immutables.value.Value;
 @Value.Modifiable
 public abstract class DocumentDto {
 
+    public abstract String getKey();
+
     public abstract String getName();
 
+    public abstract String getContent();
+
     public static ImmutableDocumentDto.Builder builder() {
-        return ImmutableDocumentDto.builder();
+        return new ImmutableDocumentDto.Builder();
     }
 }

@@ -19,7 +19,7 @@ public class DocumentController {
 
     private final DocumentService documentService;
 
-    @PostMapping(path = "/whoami", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<DocumentDto> addDocument(@RequestBody final DocumentDto dto) {
         return ResponseEntity.ok(documentService.addNew(dto));
     }
