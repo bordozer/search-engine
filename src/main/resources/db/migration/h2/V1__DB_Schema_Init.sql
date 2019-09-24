@@ -9,4 +9,4 @@ CREATE TABLE SE_DOCUMENTS (
   KEY         VARCHAR(10)   NOT NULL,
   CONTENT     VARCHAR(1000) NOT NULL
 );
-create unique index IDX_DOC_KEY on SE_DOCUMENTS(DOC_KEY);
+create unique index IDX_DOC_KEY on SE_DOCUMENTS(KEY);

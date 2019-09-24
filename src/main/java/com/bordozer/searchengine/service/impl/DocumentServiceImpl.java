@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.CheckForNull;
+import java.util.NoSuchElementException;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -19,7 +22,11 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public DocumentDto findByKey(final String key) {
         LOGGER.info("About to get document by key '{}'", key);
-        return DocumentConverter.toDto(documentRepository.findByKey(key));
+        @CheckForNull final DocumentEntity document = documentRepository.findByKey(key);
+        if (document == null) {
+            throw new NoSuchElementException(String.format("Document with key '%s' not found", key));
+        }
+        return DocumentConverter.toDto(document);
     }
 
     @Override
