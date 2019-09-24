@@ -6,13 +6,20 @@ buildscript {
         }
     }
     dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.8.RELEASE")
         classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.9"
+        classpath "net.ltgt.gradle:gradle-apt-plugin:0.10"
     }
 }
 
-plugins {
-    id 'java'
-    id 'idea'
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'net.ltgt.apt'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+allprojects {
+    apply plugin: 'java'
 }
 
 repositories {
@@ -32,10 +39,18 @@ ext {
 }
 
 dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+
     compile group: 'com.github.spotbugs', name: 'spotbugs', version: spotbugsVersion
     compileOnly group: 'com.github.spotbugs', name: 'spotbugs-annotations', version: spotbugsVersion
     compile group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
     compileOnly  group: 'net.jcip', name: 'jcip-annotations', version: '1.0'
+
+    compile group: 'org.immutables', name: 'value', version: '2.5.6'
+    compile group: 'org.immutables', name: 'gson', version: '2.5.6'
+    compile group: 'org.immutables', name: 'builder', version: '2.5.6'
+
+    compile group: 'org.hsqldb', name: 'hsqldb', version: '2.5.0'
 
     compile group: 'com.google.guava', name: 'guava', version: '27.0.1-jre'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
@@ -142,4 +157,27 @@ pmdMain {
 tasks.withType(Checkstyle) { task -> enabled = true }
 tasks.withType(Pmd) { task -> enabled = true }
 spotbugsMain.enabled = true
+
+sourceSets {
+    main {
+        java.srcDir "${buildDir}/generated/source/apt/main"
+    }
+    /*generated{
+        java.srcDir "${buildDir}/generated/source/apt/main"
+    }
+
+    main {
+        compileClasspath += generated.output
+        runtimeClasspath += generated.output
+    }
+
+    test {
+        compileClasspath += generated.output
+        runtimeClasspath += generated.output
+    }*/
+}
+
+compileJava.dependsOn clean
+//compileJava.dependsOn(compileGeneratedJava)
+//compileJava.source sourceSets.generated.java, sourceSets.main.java
 
