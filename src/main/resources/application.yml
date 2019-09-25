@@ -22,8 +22,7 @@ logging:
 spring:
   profiles: dev
   datasource:
-    url: jdbc:hsqldb:file:./db_storage/sedb_002;MODE=Oracle;AUTO_SERVER=TRUE;hsqldb.sqllog=3
-    driverClassName: org.hsqldb.jdbcDriver
+    url: jdbc:hsqldb:file:./db_storage/sedb_009;MODE=Oracle;AUTO_SERVER=TRUE;hsqldb.sqllog=3
     username: sa
     password:
   jpa:

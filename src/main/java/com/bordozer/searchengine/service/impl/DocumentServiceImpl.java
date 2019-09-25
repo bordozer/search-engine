@@ -1,9 +1,12 @@
 package com.bordozer.searchengine.service.impl;
 
 import com.bordozer.searchengine.converter.DocumentConverter;
+import com.bordozer.searchengine.converter.DocumentTokenConverter;
 import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.entity.DocumentEntity;
+import com.bordozer.searchengine.entity.DocumentTokenEntity;
 import com.bordozer.searchengine.repository.DocumentRepository;
+import com.bordozer.searchengine.repository.DocumentTokenRepository;
 import com.bordozer.searchengine.service.DocumentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,14 +15,19 @@ import org.springframework.stereotype.Service;
 import javax.annotation.CheckForNull;
 import javax.persistence.EntityExistsException;
 import javax.transaction.Transactional;
+import java.util.Arrays;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class DocumentServiceImpl implements DocumentService {
 
+    public static final String SPACE = " ";
     private final DocumentRepository documentRepository;
+    private final DocumentTokenRepository documentTokenRepository;
 
     @Override
     public DocumentDto findByKey(final String key) {
@@ -37,16 +45,23 @@ public class DocumentServiceImpl implements DocumentService {
     public DocumentDto addNew(final DocumentDto dto) {
         LOGGER.info("About to create new document: {}", dto);
 
-        @CheckForNull final DocumentEntity document = documentRepository.findByKey(dto.getKey());
+        final String key = dto.getKey();
+        @CheckForNull final DocumentEntity document = documentRepository.findByKey(key);
         if (document != null) {
-            LOGGER.info("Failed to create new document with key '{}' - document with the key already exists", dto.getKey());
-            throw new EntityExistsException(String.format("Document with key '%s' already exists", dto.getKey()));
+            LOGGER.info("Failed to create new document with key '{}' - document with the key already exists", key);
+            throw new EntityExistsException(String.format("Document with key '%s' already exists", key));
         }
 
         final DocumentEntity constructed = DocumentConverter.toEntity(dto);
         LOGGER.info("Constructed document: {}", constructed);
         final DocumentEntity saved = documentRepository.save(constructed);
         LOGGER.info("Saved document: {}", saved);
+
+        final List<String> tokens = Arrays.asList(dto.getContent().split(SPACE));
+        final List<DocumentTokenEntity> documentTokenEntities = tokens.stream()
+                .map(token -> DocumentTokenConverter.toEntity(key, token))
+                .collect(Collectors.toList());
+        documentTokenRepository.saveAll(documentTokenEntities);
 
         return DocumentConverter.toDto(saved);
     }
