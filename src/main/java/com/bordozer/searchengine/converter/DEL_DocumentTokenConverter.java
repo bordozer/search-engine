@@ -4,9 +4,10 @@ import com.bordozer.searchengine.entity.DocumentTokenEntity;
 
 import java.util.Objects;
 
-public final class DocumentTokenConverter {
+/* TODO: delete */
+public final class DEL_DocumentTokenConverter {
 
-    private DocumentTokenConverter() {
+    private DEL_DocumentTokenConverter() {
     }
 
     public static DocumentTokenEntity toEntity(final String key, final String token) {
@@ -14,7 +15,7 @@ public final class DocumentTokenConverter {
         Objects.requireNonNull(token, "Token must nit be null");
 
         final DocumentTokenEntity entity = new DocumentTokenEntity();
-        entity.setKey(key);
+//        entity.setKey(key);
         entity.setToken(token);
         return entity;
     }

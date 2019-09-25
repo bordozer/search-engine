@@ -1,10 +1,8 @@
 package com.bordozer.searchengine.service.impl;
 
 import com.bordozer.searchengine.converter.DocumentConverter;
-import com.bordozer.searchengine.converter.DocumentTokenConverter;
 import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.entity.DocumentEntity;
-import com.bordozer.searchengine.entity.DocumentTokenEntity;
 import com.bordozer.searchengine.repository.DocumentRepository;
 import com.bordozer.searchengine.repository.DocumentTokenRepository;
 import com.bordozer.searchengine.service.DocumentService;
@@ -15,17 +13,13 @@ import org.springframework.stereotype.Service;
 import javax.annotation.CheckForNull;
 import javax.persistence.EntityExistsException;
 import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class DocumentServiceImpl implements DocumentService {
 
-    public static final String SPACE = " ";
     private final DocumentRepository documentRepository;
     private final DocumentTokenRepository documentTokenRepository;
 
@@ -56,12 +50,6 @@ public class DocumentServiceImpl implements DocumentService {
         LOGGER.info("Constructed document: {}", constructed);
         final DocumentEntity saved = documentRepository.save(constructed);
         LOGGER.info("Saved document: {}", saved);
-
-        final List<String> tokens = Arrays.asList(dto.getContent().split(SPACE));
-        final List<DocumentTokenEntity> documentTokenEntities = tokens.stream()
-                .map(token -> DocumentTokenConverter.toEntity(key, token))
-                .collect(Collectors.toList());
-        documentTokenRepository.saveAll(documentTokenEntities);
 
         return DocumentConverter.toDto(saved);
     }

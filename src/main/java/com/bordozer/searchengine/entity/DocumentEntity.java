@@ -20,7 +20,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString(of = {"key", "content"})
+@ToString(of = {"id", "key", "content"})
 @Table(name = "SE_DOCUMENTS")
 public class DocumentEntity {
 
@@ -44,6 +44,6 @@ public class DocumentEntity {
     @Column(name = "CONTENT", nullable = false)
     private String content;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "key")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "document")
     private List<DocumentTokenEntity> tokens;
 }

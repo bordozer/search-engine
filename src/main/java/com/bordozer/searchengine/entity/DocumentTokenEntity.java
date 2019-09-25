@@ -6,17 +6,21 @@ import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Getter
 @Setter
-@ToString(of = {"key", "token"})
+@ToString(of = {"id", "document", "token"})
 @Table(name = "SE_DOCUMENT_TOKENS")
 public class DocumentTokenEntity {
 
@@ -34,8 +38,9 @@ public class DocumentTokenEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Document_Token_Sequence")
     private Long id;
 
-    @Column(name = "KEY", nullable = false)
-    private String key;
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @JoinColumn(name = "DOC_ID")
+    private DocumentEntity document;
 
     @Column(name = "TOKEN", nullable = false)
     private String token;

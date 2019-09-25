@@ -1,9 +1,9 @@
 package com.bordozer.searchengine.service.impl;
 
+import com.bordozer.searchengine.converter.DocumentConverter;
 import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.entity.DocumentTokenEntity;
 import com.bordozer.searchengine.model.SearchCriteria;
-import com.bordozer.searchengine.repository.DocumentTokenRepository;
 import com.bordozer.searchengine.repository.DocumentTokenSpecification;
 import com.bordozer.searchengine.repository.SearchRepository;
 import com.bordozer.searchengine.service.SearchService;
@@ -12,8 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-import static com.google.common.collect.Lists.newArrayList;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -21,13 +20,16 @@ import static com.google.common.collect.Lists.newArrayList;
 public class SearchServiceImpl implements SearchService {
 
     private final SearchRepository searchRepository;
-    private final DocumentTokenRepository documentTokenRepository;
 
     @Override
     public List<DocumentDto> find(final List<String> tokens) {
         final SearchCriteria searchCriteria = SearchCriteria.of(tokens);
         final DocumentTokenSpecification specification = new DocumentTokenSpecification(searchCriteria);
         final List<DocumentTokenEntity> entities = searchRepository.findAll(specification);
-        return newArrayList();
+        return entities.stream()
+                .map(DocumentTokenEntity::getDocument)
+                .distinct()
+                .map(DocumentConverter::toDto)
+                .collect(Collectors.toList());
     }
 }
