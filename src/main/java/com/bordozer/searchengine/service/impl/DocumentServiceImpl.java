@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.CheckForNull;
+import javax.transaction.Transactional;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -30,11 +31,12 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    @Transactional
     public DocumentDto addNew(final DocumentDto dto) {
         LOGGER.info("About to create new document: {}", dto);
 
         final DocumentEntity constructed = DocumentConverter.toEntity(dto);
-        LOGGER.info("Created document: {}", constructed);
+        LOGGER.info("Constructed document: {}", constructed);
         final DocumentEntity saved = documentRepository.save(constructed);
         LOGGER.info("Saved document: {}", saved);
 

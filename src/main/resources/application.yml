@@ -14,7 +14,10 @@ flyway:
 logging:
   level:
     root: info
-
+    org:
+      springframework:
+        transaction:
+          interceptor: TRACE
 ---
 spring:
   profiles: dev
