@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.CheckForNull;
+import javax.persistence.EntityExistsException;
 import javax.transaction.Transactional;
 import java.util.NoSuchElementException;
 
@@ -34,6 +35,11 @@ public class DocumentServiceImpl implements DocumentService {
     @Transactional
     public DocumentDto addNew(final DocumentDto dto) {
         LOGGER.info("About to create new document: {}", dto);
+
+        @CheckForNull final DocumentEntity document = documentRepository.findByKey(dto.getKey());
+        if (document != null) {
+            throw new EntityExistsException(String.format("Document with key '%s' already exists", dto.getKey()));
+        }
 
         final DocumentEntity constructed = DocumentConverter.toEntity(dto);
         LOGGER.info("Constructed document: {}", constructed);
