@@ -4,7 +4,7 @@ import com.bordozer.searchengine.converter.DocumentConverter;
 import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.entity.DocumentTokenEntity;
 import com.bordozer.searchengine.model.SearchCriteria;
-import com.bordozer.searchengine.repository.DocumentTokenSpecification;
+import com.bordozer.searchengine.specification.DocumentTokenSpecification;
 import com.bordozer.searchengine.repository.SearchRepository;
 import com.bordozer.searchengine.service.SearchService;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +25,7 @@ public class SearchServiceImpl implements SearchService {
     public List<DocumentDto> find(final List<String> tokens) {
         final SearchCriteria searchCriteria = SearchCriteria.of(tokens);
         final DocumentTokenSpecification specification = new DocumentTokenSpecification(searchCriteria);
-        final List<DocumentTokenEntity> entities = searchRepository.findAll(specification);
-        return entities.stream()
+        return searchRepository.findAll(specification).stream()
                 .map(DocumentTokenEntity::getDocument)
                 .distinct()
                 .map(DocumentConverter::toDto)

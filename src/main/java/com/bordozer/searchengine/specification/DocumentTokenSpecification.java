@@ -1,4 +1,4 @@
-package com.bordozer.searchengine.repository;
+package com.bordozer.searchengine.specification;
 
 import com.bordozer.searchengine.entity.DocumentTokenEntity;
 import com.bordozer.searchengine.model.SearchCriteria;

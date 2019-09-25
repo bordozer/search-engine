@@ -2,6 +2,7 @@ package com.bordozer.searchengine.controller;
 
 import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.service.SearchService;
+import com.bordozer.searchengine.utils.LoggableJson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -23,6 +24,7 @@ public class SearchEngineController {
 
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<DocumentDto>> search(@RequestParam(value = "token") final List<String> tokens) {
+        LOGGER.info("About to search documents by tokens '{}'", LoggableJson.of(tokens));
         return ResponseEntity.ok(searchService.find(tokens));
     }
 }

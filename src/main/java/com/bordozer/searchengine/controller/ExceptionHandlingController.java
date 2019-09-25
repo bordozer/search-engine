@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 
 @Slf4j
 @ControllerAdvice
-public class ErrorController {
+public class ExceptionHandlingController {
 
     @ExceptionHandler({NoSuchElementException.class})
     public final ResponseEntity<ErrorDto> handleNoSuchElementException(final Exception ex) {

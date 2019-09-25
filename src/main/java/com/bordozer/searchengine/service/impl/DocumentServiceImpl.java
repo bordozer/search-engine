@@ -4,7 +4,6 @@ import com.bordozer.searchengine.converter.DocumentConverter;
 import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.entity.DocumentEntity;
 import com.bordozer.searchengine.repository.DocumentRepository;
-import com.bordozer.searchengine.repository.DocumentTokenRepository;
 import com.bordozer.searchengine.service.DocumentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +20,6 @@ import java.util.NoSuchElementException;
 public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
-    private final DocumentTokenRepository documentTokenRepository;
 
     @Override
     public DocumentDto findByKey(final String key) {
