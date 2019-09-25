@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface DocumentTokenRepository extends JpaRepository<DocumentTokenEntity, Long> {
 
-    List<DocumentTokenEntity> findByTokenIn(List<String> tokens);
+//    List<DocumentTokenEntity> findByTokenIn(List<String> tokens);
 }

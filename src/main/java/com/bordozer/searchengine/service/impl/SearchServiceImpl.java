@@ -3,6 +3,7 @@ package com.bordozer.searchengine.service.impl;
 import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.entity.DocumentTokenEntity;
 import com.bordozer.searchengine.model.SearchCriteria;
+import com.bordozer.searchengine.repository.DocumentTokenRepository;
 import com.bordozer.searchengine.repository.DocumentTokenSpecification;
 import com.bordozer.searchengine.repository.SearchRepository;
 import com.bordozer.searchengine.service.SearchService;
@@ -20,6 +21,7 @@ import static com.google.common.collect.Lists.newArrayList;
 public class SearchServiceImpl implements SearchService {
 
     private final SearchRepository searchRepository;
+    private final DocumentTokenRepository documentTokenRepository;
 
     @Override
     public List<DocumentDto> find(final List<String> tokens) {

@@ -21,6 +21,8 @@ public class DocumentTokenSpecification implements Specification<DocumentTokenEn
         final Predicate[] predicates = searchCriteria.getTokens().stream()
                 .map(token -> builder.equal(root.<String>get("token"), token))
                 .toArray(Predicate[]::new);
-        return builder.or(predicates);
+        final Predicate or = builder.or(predicates);
+//        root.join(DocumentEntity.);
+        return or;
     }
 }
