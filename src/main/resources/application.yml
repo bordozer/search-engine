@@ -28,7 +28,7 @@ application:
 spring:
   profiles: dev
   datasource:
-    url: jdbc:hsqldb:file:./db_storage/sedb_012;MODE=Oracle;AUTO_SERVER=TRUE;hsqldb.sqllog=3
+    url: jdbc:hsqldb:file:./db_storage/sedb_013;MODE=Oracle;AUTO_SERVER=TRUE;hsqldb.sqllog=3
     username: sa
     password:
   jpa:

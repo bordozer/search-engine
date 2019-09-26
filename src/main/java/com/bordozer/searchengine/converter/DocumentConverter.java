@@ -4,6 +4,7 @@ import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.entity.DocumentEntity;
 import com.bordozer.searchengine.entity.DocumentTokenEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +23,9 @@ public final class DocumentConverter {
         Objects.requireNonNull(dto, "Dto must nit be null");
 
         final DocumentEntity documentEntity = new DocumentEntity();
-        final List<DocumentTokenEntity> documentTokenEntities = Arrays.stream(dto.getContent().split(SPACE))
+        final List<DocumentTokenEntity> documentTokenEntities = Arrays.stream(dto.getContent()
+                .split(SPACE))
+                .filter(StringUtils::isNotBlank)
                 .map(token -> toDocumentTokenEntity(documentEntity, token))
                 .collect(Collectors.toList());
         documentEntity.setKey(dto.getKey());
