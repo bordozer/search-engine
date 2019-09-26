@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -25,6 +26,11 @@ public class ExceptionHandlingController {
     @ExceptionHandler({EntityExistsException.class})
     public final ResponseEntity<ErrorDto> handleEntityExistsException(final Exception ex) {
         return handleException(ex, HttpStatus.EXPECTATION_FAILED);
+    }
+
+    @ExceptionHandler({HttpMessageConversionException.class})
+    public final ResponseEntity<ErrorDto> handleHttpMessageConversionException(final Exception ex) {
+        return handleException(ex, HttpStatus.BAD_REQUEST);
     }
 
     private ResponseEntity<ErrorDto> handleException(final Exception ex, final HttpStatus status) {

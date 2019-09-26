@@ -36,6 +36,10 @@ class DocumentControllerTest extends AbstractEndpointTest {
             FileUtils.readSystemResource("tests/DocumentControllerTest/create-new-doc-expected-response.json");
     private static final String DOC_ALREADY_EXISTS_EXPECTED_RESPONSE =
             FileUtils.readSystemResource("tests/DocumentControllerTest/doc-already-exists-expected-response.json");
+    private static final String CREATE_NEW_DOC_WRONG_REQUEST =
+            FileUtils.readSystemResource("tests/DocumentControllerTest/create-new-doc-wrong-request.json");
+    private static final String CREATE_NEW_DOC_WITH_SPARE_FIELD_REQUEST =
+            FileUtils.readSystemResource("tests/DocumentControllerTest/create-new-doc-with-spare-fiels-request.json");
 
     @MockBean
     private DocumentService documentService;
@@ -107,6 +111,50 @@ class DocumentControllerTest extends AbstractEndpointTest {
                 .hasContentType(MediaType.APPLICATION_JSON_UTF8)
                 .hasHttpStatus(HttpStatus.EXPECTATION_FAILED)
                 .hasBodyJson(DOC_ALREADY_EXISTS_EXPECTED_RESPONSE)
+                .end();
+        // when
+        postTo(endpoint);
+    }
+
+    @Test
+    void shouldReturnErrorIfNotAllFieldsProvided() {
+        // given
+        final ImmutableDocumentDto dto = DocumentDto.builder()
+                .key(DOC_KEY)
+                .content("one two three")
+                .build();
+        when(documentService.addNew(dto)).thenThrow(new EntityExistsException("Document with key '1024' already exists"));
+
+        final EndpointTestBuilder endpoint = testEndpoint(ADD_DOC_URL)
+                .whenRequest()
+                .withContentType(MediaType.APPLICATION_JSON_UTF8)
+                .withBodyJson(CREATE_NEW_DOC_WRONG_REQUEST)
+                .thenResponse()
+                .hasContentType(MediaType.APPLICATION_JSON_UTF8)
+                .hasHttpStatus(HttpStatus.BAD_REQUEST)
+                .hasBodyContains("some of required attributes are not set [content]")
+                .end();
+        // when
+        postTo(endpoint);
+    }
+
+    @Test
+    void shouldReturnErrorIfSpareFieldProvided() {
+        // given
+        final ImmutableDocumentDto dto = DocumentDto.builder()
+                .key(DOC_KEY)
+                .content("one two three")
+                .build();
+        when(documentService.addNew(dto)).thenThrow(new EntityExistsException("Document with key '1024' already exists"));
+
+        final EndpointTestBuilder endpoint = testEndpoint(ADD_DOC_URL)
+                .whenRequest()
+                .withContentType(MediaType.APPLICATION_JSON_UTF8)
+                .withBodyJson(CREATE_NEW_DOC_WITH_SPARE_FIELD_REQUEST)
+                .thenResponse()
+                .hasContentType(MediaType.APPLICATION_JSON_UTF8)
+                .hasHttpStatus(HttpStatus.BAD_REQUEST)
+                .hasBodyContains("Unrecognized field \\\"unknownField\\\"")
                 .end();
         // when
         postTo(endpoint);
