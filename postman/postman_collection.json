@@ -1,0 +1,116 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Search Engine",
+		"_postman_id": "fc013292-dec6-0307-4138-ffe88b38b4a9",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get existing document",
+			"request": {
+				"url": "http://localhost:8944/doc/33",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"key\" : \"33\",\n\t\"content\": \"one two threee for\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get NOT existing document",
+			"request": {
+				"url": "http://localhost:8944/doc/777",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"key\" : \"33\",\n\t\"content\": \"one two threee for\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add new document",
+			"request": {
+				"url": "http://localhost:8944/doc/add",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"key\" : \"33\",\n\t\"content\": \"one two threee four\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Search by tokens",
+			"request": {
+				"url": {
+					"raw": "http://localhost:8944/search?token=one&token=three",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8944",
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "one",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "token",
+							"value": "three",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"key\" : \"33\",\n\t\"content\": \"one two threee for\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
