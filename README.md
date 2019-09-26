@@ -30,4 +30,8 @@ There are some stored request there
 - *Get NOT existing document* - tries to get document with rey 777 that does not exists. Error is shown.
 - *Search by tokens* - does search by list of tokens.
 
- 
+ ### Swagger
+ Open in browser
+`````` 
+http://localhost:8944/swagger-ui.html 
+``````
