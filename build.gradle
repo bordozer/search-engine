@@ -24,6 +24,9 @@ allprojects {
 
 repositories {
     mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 group 'com.bordozer'
@@ -63,6 +66,7 @@ dependencies {
     compileOnly  group: 'net.jcip', name: 'jcip-annotations', version: '1.0'
 
     compile group: 'org.projectlombok', name: 'lombok', version: '1.18.10'
+    compile group: 'com.bordozer', name: 'commons', version: '3.12'
 
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
 

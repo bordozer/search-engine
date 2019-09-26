@@ -1,8 +1,8 @@
 package com.bordozer.searchengine.controller;
 
+import com.bordozer.commons.utils.LoggableJson;
 import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.service.DocumentService;
-import com.bordozer.searchengine.utils.LoggableJson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;

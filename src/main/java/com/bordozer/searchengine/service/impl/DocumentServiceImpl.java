@@ -26,7 +26,7 @@ public class DocumentServiceImpl implements DocumentService {
         LOGGER.info("About to get document by key '{}'", key);
         @CheckForNull final DocumentEntity document = documentRepository.findByKey(key);
         if (document == null) {
-            LOGGER.info("Failed to find  document with key '{}' - document does not exist", key);
+            LOGGER.error("Failed to find  document with key '{}' - document does not exist", key);
             throw new NoSuchElementException(String.format("Document with key '%s' not found", key));
         }
         return DocumentConverter.toDto(document);
@@ -40,7 +40,7 @@ public class DocumentServiceImpl implements DocumentService {
         final String key = dto.getKey();
         @CheckForNull final DocumentEntity document = documentRepository.findByKey(key);
         if (document != null) {
-            LOGGER.info("Failed to create new document with key '{}' - document with the key already exists", key);
+            LOGGER.error("Failed to create new document with key '{}' - document with the key already exists", key);
             throw new EntityExistsException(String.format("Document with key '%s' already exists", key));
         }
 

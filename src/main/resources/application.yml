@@ -18,6 +18,12 @@ logging:
       springframework:
         transaction:
           interceptor: TRACE
+
+application:
+  properties:
+    dateFormat: yyyy-MM-dd
+    dateTimeFormat: yyyy-MM-dd HH:mm:ss
+
 ---
 spring:
   profiles: dev
