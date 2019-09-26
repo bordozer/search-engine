@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -18,17 +19,17 @@ import java.util.NoSuchElementException;
 @ControllerAdvice
 public class ExceptionHandlingController {
 
-    @ExceptionHandler({NoSuchElementException.class})
+    @ExceptionHandler(NoSuchElementException.class)
     public final ResponseEntity<ErrorDto> handleNoSuchElementException(final Exception ex) {
         return handleException(ex, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
-    @ExceptionHandler({EntityExistsException.class})
+    @ExceptionHandler(EntityExistsException.class)
     public final ResponseEntity<ErrorDto> handleEntityExistsException(final Exception ex) {
         return handleException(ex, HttpStatus.EXPECTATION_FAILED);
     }
 
-    @ExceptionHandler({HttpMessageConversionException.class})
+    @ExceptionHandler({HttpMessageConversionException.class, MethodArgumentNotValidException.class})
     public final ResponseEntity<ErrorDto> handleHttpMessageConversionException(final Exception ex) {
         return handleException(ex, HttpStatus.BAD_REQUEST);
     }

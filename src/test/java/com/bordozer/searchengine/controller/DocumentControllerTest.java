@@ -39,7 +39,9 @@ class DocumentControllerTest extends AbstractEndpointTest {
     private static final String CREATE_NEW_DOC_WRONG_REQUEST =
             FileUtils.readSystemResource("tests/DocumentControllerTest/create-new-doc-wrong-request.json");
     private static final String CREATE_NEW_DOC_WITH_SPARE_FIELD_REQUEST =
-            FileUtils.readSystemResource("tests/DocumentControllerTest/create-new-doc-with-spare-fiels-request.json");
+            FileUtils.readSystemResource("tests/DocumentControllerTest/create-new-doc-with-spare-field-request.json");
+    private static final String NEW_DOC_WITH_TOO_LONG_KEY_REQUEST =
+            FileUtils.readSystemResource("tests/DocumentControllerTest/new-doc-with-too-long-key-request.json");
 
     @MockBean
     private DocumentService documentService;
@@ -119,12 +121,6 @@ class DocumentControllerTest extends AbstractEndpointTest {
     @Test
     void shouldReturnErrorIfNotAllFieldsProvided() {
         // given
-        final ImmutableDocumentDto dto = DocumentDto.builder()
-                .key(DOC_KEY)
-                .content("one two three")
-                .build();
-        when(documentService.addNew(dto)).thenThrow(new EntityExistsException("Document with key '1024' already exists"));
-
         final EndpointTestBuilder endpoint = testEndpoint(ADD_DOC_URL)
                 .whenRequest()
                 .withContentType(MediaType.APPLICATION_JSON_UTF8)
@@ -141,12 +137,6 @@ class DocumentControllerTest extends AbstractEndpointTest {
     @Test
     void shouldReturnErrorIfSpareFieldProvided() {
         // given
-        final ImmutableDocumentDto dto = DocumentDto.builder()
-                .key(DOC_KEY)
-                .content("one two three")
-                .build();
-        when(documentService.addNew(dto)).thenThrow(new EntityExistsException("Document with key '1024' already exists"));
-
         final EndpointTestBuilder endpoint = testEndpoint(ADD_DOC_URL)
                 .whenRequest()
                 .withContentType(MediaType.APPLICATION_JSON_UTF8)
@@ -155,6 +145,22 @@ class DocumentControllerTest extends AbstractEndpointTest {
                 .hasContentType(MediaType.APPLICATION_JSON_UTF8)
                 .hasHttpStatus(HttpStatus.BAD_REQUEST)
                 .hasBodyContains("Unrecognized field \\\"unknownField\\\"")
+                .end();
+        // when
+        postTo(endpoint);
+    }
+
+    @Test
+    void shouldReturnErrorIfKeyIsTooLong() {
+        // given
+        final EndpointTestBuilder endpoint = testEndpoint(ADD_DOC_URL)
+                .whenRequest()
+                .withContentType(MediaType.APPLICATION_JSON_UTF8)
+                .withBodyJson(NEW_DOC_WITH_TOO_LONG_KEY_REQUEST)
+                .thenResponse()
+                .hasContentType(MediaType.APPLICATION_JSON_UTF8)
+                .hasHttpStatus(HttpStatus.BAD_REQUEST)
+                .hasBodyContains("default message [key],100]; default message [must be less than or equal to 100]]")
                 .end();
         // when
         postTo(endpoint);

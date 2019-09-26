@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @Slf4j
 @RestController()
 @RequestMapping("/doc")
@@ -45,7 +47,7 @@ public class DocumentController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 417, message = "Cannot create a Document. Document with provided key already exists")
     })
-    public ResponseEntity<DocumentDto> addDocument(@RequestBody final DocumentDto dto) {
+    public ResponseEntity<DocumentDto> addDocument(@Valid @RequestBody final DocumentDto dto) {
         LOGGER.info("Add a new document: {}", LoggableJson.of(dto));
         return ResponseEntity.ok(documentService.addNew(dto));
     }
