@@ -26,6 +26,7 @@ public final class DocumentConverter {
         final List<DocumentTokenEntity> documentTokenEntities = Arrays.stream(dto.getContent()
                 .split(SPACE))
                 .filter(StringUtils::isNotBlank)
+                .map(String::trim)
                 .map(token -> toDocumentTokenEntity(documentEntity, token))
                 .collect(Collectors.toList());
         documentEntity.setKey(dto.getKey());
