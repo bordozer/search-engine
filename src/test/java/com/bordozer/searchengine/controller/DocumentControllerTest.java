@@ -160,7 +160,7 @@ class DocumentControllerTest extends AbstractEndpointTest {
                 .thenResponse()
                 .hasContentType(MediaType.APPLICATION_JSON_UTF8)
                 .hasHttpStatus(HttpStatus.BAD_REQUEST)
-                .hasBodyContains("default message [key],100]; default message [must be less than or equal to 100]]")
+                .hasBodyContains("default message [key],100,0]; default message [length must be between 0 and 100]]")
                 .end();
         // when
         postTo(endpoint);
