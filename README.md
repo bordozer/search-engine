@@ -31,7 +31,11 @@ There are some stored request there
 - *Search by tokens* - does search by list of tokens.
 
  ### Swagger
- Open in browser
+Swagger REST API
+``````
+http://localhost:8944//v2/api-docs
+``````
+Swagger UI
 `````` 
 http://localhost:8944/swagger-ui.html 
 ``````
