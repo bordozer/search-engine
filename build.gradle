@@ -155,7 +155,7 @@ tasks.withType(com.github.spotbugs.SpotBugsTask) { task ->
 /* </SPOTBUGS> */
 
 ext {
-    scaSource = 'src/main/java/com/bordozer/resourcepool'
+    scaSource = 'src/main/java/com/bordozer/searchengine'
 }
 checkstyleMain {
     source = scaSource
