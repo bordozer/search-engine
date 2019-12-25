@@ -9,8 +9,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AbstractIntegrationTest extends AbstractDbUnitTest {
 
+    private static final String BASE_API = "http://localhost:%s";
+
     @LocalServerPort
     private int randomPort;
+
+    protected String getBaseApi() {
+        return String.format(BASE_API, getRandomPort());
+    }
 
     protected int getRandomPort() {
         return randomPort;

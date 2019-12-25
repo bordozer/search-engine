@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+
+    <PUBLIC.SE_DOCUMENTS
+            ID="1033"
+            KEY="first"
+            CONTENT="one two three four"
+    />
+
+    <PUBLIC.SE_DOCUMENT_TOKENS
+            ID="10255"
+            DOC_ID="1033"
+            TOKEN="one"
+    />
+    <PUBLIC.SE_DOCUMENT_TOKENS
+            ID="10256"
+            DOC_ID="1033"
+            TOKEN="two"
+    />
+    <PUBLIC.SE_DOCUMENT_TOKENS
+            ID="10257"
+            DOC_ID="1033"
+            TOKEN="three"
+    />
+    <PUBLIC.SE_DOCUMENT_TOKENS
+            ID="10258"
+            DOC_ID="1033"
+            TOKEN="four"
+    />
+</dataset>
