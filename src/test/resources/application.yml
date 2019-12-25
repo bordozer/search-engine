@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:hsqldb:mem:testdb;MVCC=true
+    driverClassName: org.hsqldb.jdbcDriver
+    username: sa
+    password:
+
+service:
+  localization:
+    url: http://localhost
+    port: 8977
+
+application:
+  properties:
+    dateFormat: yyyy-MM-dd
+    dateTimeFormat: yyyy-MM-dd HH:mm:ss
