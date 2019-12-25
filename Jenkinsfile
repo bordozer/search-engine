@@ -5,7 +5,6 @@ pipeline {
 			steps {
 				script {
 					echo "-----------------------------------------------------------------------------------------------"
-					echo "Build"
 					sh "./gradlew --version"
 					sh "./gradlew clean build -x check"
 				}
@@ -16,8 +15,7 @@ pipeline {
                 script {
                     echo "-----------------------------------------------------------------------------------------------"
                     sh "bash ./gradlew checkstyleMain checkstyleTest pmdMain pmdTest spotbugsMain spotbugsTest"
-                    }
-
+                }
             }
         }
         stage("Unit tests") {

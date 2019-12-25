@@ -3,13 +3,12 @@ spring:
     name: search-engine
   profiles:
     active: dev
+  flyway:
+    locations: classpath:db/migration/h2
+    schemas: PUBLIC
 
 server:
   port: 8944
-
-flyway:
-  locations: db/migration/h2
-  schemas: PUBLIC
 
 logging:
   level:

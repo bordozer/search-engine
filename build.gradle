@@ -42,6 +42,8 @@ ext {
 }
 
 dependencies {
+    compile group: 'com.bordozer', name: 'commons', version: '3.32'
+
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
 
@@ -66,7 +68,6 @@ dependencies {
     compileOnly  group: 'net.jcip', name: 'jcip-annotations', version: '1.0'
 
     compile group: 'org.projectlombok', name: 'lombok', version: '1.18.10'
-    compile group: 'com.bordozer', name: 'commons', version: '3.12'
 
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
@@ -171,22 +172,7 @@ sourceSets {
     main {
         java.srcDir "${buildDir}/generated/source/apt/main"
     }
-    /*generated{
-        java.srcDir "${buildDir}/generated/source/apt/main"
-    }
-
-    main {
-        compileClasspath += generated.output
-        runtimeClasspath += generated.output
-    }
-
-    test {
-        compileClasspath += generated.output
-        runtimeClasspath += generated.output
-    }*/
 }
 
 compileJava.dependsOn clean
-//compileJava.dependsOn(compileGeneratedJava)
-//compileJava.source sourceSets.generated.java, sourceSets.main.java
 
