@@ -1,25 +1,31 @@
 package com.bordozer.searchengine.controller;
 
-import com.bordozer.commons.testing.endpoint.AbstractEndpointTest;
-import com.bordozer.commons.testing.endpoint.EndpointTestBuilder;
 import com.bordozer.commons.utils.FileUtils;
 import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.dto.ImmutableDocumentDto;
 import com.bordozer.searchengine.service.DocumentService;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
 
 import javax.persistence.EntityExistsException;
 import java.util.NoSuchElementException;
 
-import static com.bordozer.commons.testing.endpoint.EndpointTestBuilder.testEndpoint;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(DocumentController.class)
-class DocumentControllerTest extends AbstractEndpointTest {
+@ExtendWith({SpringExtension.class})
+class DocumentControllerTest {
 
     private static final String DOC_KEY = "1024";
 
@@ -45,9 +51,11 @@ class DocumentControllerTest extends AbstractEndpointTest {
 
     @MockBean
     private DocumentService documentService;
+    @Autowired
+    private MockMvc mockMvc;
 
     @Test
-    void shouldGetDocumentIfExists() {
+    void shouldGetDocumentIfExists() throws Exception {
         // given
         final DocumentDto response = DocumentDto.builder()
                 .key(DOC_KEY)
@@ -55,31 +63,30 @@ class DocumentControllerTest extends AbstractEndpointTest {
                 .build();
         when(documentService.findByKey(DOC_KEY)).thenReturn(response);
 
-        final EndpointTestBuilder endpoint = testEndpoint(GET_DOC_URL)
-                .whenRequest()
-                .thenResponseSuccessWithJsonBody(GET_EXISTING_DOC_EXPECTED_RESPONSE);
         // when
-        getTo(endpoint);
+        mockMvc.perform(get(GET_DOC_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().json(GET_EXISTING_DOC_EXPECTED_RESPONSE));
     }
 
     @Test
-    void shouldReturnErrorIfIfDocumentDoesNotExist() {
+    void shouldReturnErrorIfIfDocumentDoesNotExist() throws Exception {
         // given
         when(documentService.findByKey(DOC_KEY)).thenThrow(new NoSuchElementException("Document with key '1024' not found"));
 
-        final EndpointTestBuilder endpoint = testEndpoint(GET_DOC_URL)
-                .whenRequest()
-                .thenResponse()
-                .hasContentType(MediaType.APPLICATION_JSON_UTF8)
-                .hasHttpStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-                .hasBodyJson(GET_NOT_EXISTING_DOC_EXPECTED_RESPONSE)
-                .end();
         // when
-        getTo(endpoint);
+        mockMvc.perform(get(GET_DOC_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().json(GET_NOT_EXISTING_DOC_EXPECTED_RESPONSE));
     }
 
     @Test
-    void shouldCreateNewDocument() {
+    void shouldCreateNewDocument() throws Exception {
         // given
         final ImmutableDocumentDto dto = DocumentDto.builder()
                 .key(DOC_KEY)
@@ -87,17 +94,18 @@ class DocumentControllerTest extends AbstractEndpointTest {
                 .build();
         when(documentService.addNew(dto)).thenReturn(dto);
 
-        final EndpointTestBuilder endpoint = testEndpoint(ADD_DOC_URL)
-                .whenRequest()
-                .withContentType(MediaType.APPLICATION_JSON_UTF8)
-                .withBodyJson(CREATE_NEW_DOC_REQUEST)
-                .thenResponseSuccessWithJsonBody(CREATE_NEW_DOC_EXPECTED_RESPONSE);
         // when
-        postTo(endpoint);
+        mockMvc.perform(post(ADD_DOC_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(CREATE_NEW_DOC_REQUEST)
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().json(CREATE_NEW_DOC_EXPECTED_RESPONSE));
     }
 
     @Test
-    void shouldReturnErrorIfDocumentKeyAlreadyExists() {
+    void shouldReturnErrorIfDocumentKeyAlreadyExists() throws Exception {
         // given
         final ImmutableDocumentDto dto = DocumentDto.builder()
                 .key(DOC_KEY)
@@ -105,64 +113,55 @@ class DocumentControllerTest extends AbstractEndpointTest {
                 .build();
         when(documentService.addNew(dto)).thenThrow(new EntityExistsException("Document with key '1024' already exists"));
 
-        final EndpointTestBuilder endpoint = testEndpoint(ADD_DOC_URL)
-                .whenRequest()
-                .withContentType(MediaType.APPLICATION_JSON_UTF8)
-                .withBodyJson(CREATE_NEW_DOC_REQUEST)
-                .thenResponse()
-                .hasContentType(MediaType.APPLICATION_JSON_UTF8)
-                .hasHttpStatus(HttpStatus.EXPECTATION_FAILED)
-                .hasBodyJson(DOC_ALREADY_EXISTS_EXPECTED_RESPONSE)
-                .end();
         // when
-        postTo(endpoint);
+        mockMvc.perform(post(ADD_DOC_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(CREATE_NEW_DOC_REQUEST)
+        )
+                .andExpect(status().isExpectationFailed())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().json(DOC_ALREADY_EXISTS_EXPECTED_RESPONSE));
     }
 
     @Test
-    void shouldReturnErrorIfNotAllFieldsProvided() {
+    void shouldReturnErrorIfNotAllFieldsProvided() throws Exception {
         // given
-        final EndpointTestBuilder endpoint = testEndpoint(ADD_DOC_URL)
-                .whenRequest()
-                .withContentType(MediaType.APPLICATION_JSON_UTF8)
-                .withBodyJson(CREATE_NEW_DOC_WRONG_REQUEST)
-                .thenResponse()
-                .hasContentType(MediaType.APPLICATION_JSON_UTF8)
-                .hasHttpStatus(HttpStatus.BAD_REQUEST)
-                .hasBodyContains("some of required attributes are not set [content]")
-                .end();
+
         // when
-        postTo(endpoint);
+        mockMvc.perform(post(ADD_DOC_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(CREATE_NEW_DOC_WRONG_REQUEST)
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().string(Matchers.containsString("some of required attributes are not set [content]")));
     }
 
     @Test
-    void shouldReturnErrorIfSpareFieldProvided() {
+    void shouldReturnErrorIfSpareFieldProvided() throws Exception {
         // given
-        final EndpointTestBuilder endpoint = testEndpoint(ADD_DOC_URL)
-                .whenRequest()
-                .withContentType(MediaType.APPLICATION_JSON_UTF8)
-                .withBodyJson(CREATE_NEW_DOC_WITH_SPARE_FIELD_REQUEST)
-                .thenResponse()
-                .hasContentType(MediaType.APPLICATION_JSON_UTF8)
-                .hasHttpStatus(HttpStatus.BAD_REQUEST)
-                .hasBodyContains("Unrecognized field \\\"unknownField\\\"")
-                .end();
+
         // when
-        postTo(endpoint);
+        mockMvc.perform(post(ADD_DOC_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(CREATE_NEW_DOC_WITH_SPARE_FIELD_REQUEST)
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().string(Matchers.containsString("Unrecognized field \\\"unknownField\\\"")));
     }
 
     @Test
-    void shouldReturnErrorIfKeyIsTooLong() {
+    void shouldReturnErrorIfKeyIsTooLong() throws Exception {
         // given
-        final EndpointTestBuilder endpoint = testEndpoint(ADD_DOC_URL)
-                .whenRequest()
-                .withContentType(MediaType.APPLICATION_JSON_UTF8)
-                .withBodyJson(NEW_DOC_WITH_TOO_LONG_KEY_REQUEST)
-                .thenResponse()
-                .hasContentType(MediaType.APPLICATION_JSON_UTF8)
-                .hasHttpStatus(HttpStatus.BAD_REQUEST)
-                .hasBodyContains("default message [key],100,0]; default message [length must be between 0 and 100]]")
-                .end();
+
         // when
-        postTo(endpoint);
+        mockMvc.perform(post(ADD_DOC_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(NEW_DOC_WITH_TOO_LONG_KEY_REQUEST)
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().string(Matchers.containsString("default message [key],100,0]; default message [length must be between 0 and 100]]")));
     }
 }
