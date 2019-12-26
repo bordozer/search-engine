@@ -35,9 +35,10 @@ public class ExceptionHandlingController {
     }
 
     private ResponseEntity<ErrorDto> handleException(final Exception ex, final HttpStatus status) {
+        LOGGER.error("Error: ", ex);
         final ImmutableErrorDto message = ErrorDto.builder().message(ex.getMessage()).build();
         final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<>(message, headers, status);
     }
 }
