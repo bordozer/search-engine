@@ -1,6 +1,7 @@
 package com.bordozer.searchengine.controller;
 
 import com.bordozer.commons.utils.LoggableJson;
+import com.bordozer.measury.stopwatcher.WatchEntryPoint;
 import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.service.SearchService;
 import io.swagger.annotations.Api;
@@ -18,14 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.bordozer.searchengine.config.AopConfiguration.WATCHER;
-
 @SuppressWarnings("checkstyle:magicnumber")
 @Slf4j
 @RestController
 @RequestMapping("/search")
 @RequiredArgsConstructor
 @Api(value = "Search controller", tags = "Search for documents")
+@WatchEntryPoint
 public class SearchEngineController {
 
     private final SearchService searchService;
@@ -37,9 +37,9 @@ public class SearchEngineController {
     })
     public ResponseEntity<List<DocumentDto>> search(@RequestParam(value = "token") final List<String> tokens) {
         LOGGER.info("About to search documents by tokens '{}'", LoggableJson.of(tokens));
-        WATCHER.reset();
+//        WATCHER.reset();
         final List<DocumentDto> documents = searchService.find(tokens);
-        WATCHER.buildReportMills();
+//        WATCHER.buildReportMills();
         return ResponseEntity.ok(documents);
     }
 }
