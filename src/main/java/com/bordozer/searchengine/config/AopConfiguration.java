@@ -18,7 +18,7 @@ import java.util.Arrays;
 @Aspect
 public class AopConfiguration {
 
-    public static final Stopwatcher WATCHER = StopwatchManager.instance("watcher");
+    public static final Stopwatcher WATCHER = StopwatchManager.instance("se");
 
     @Around("within(com.bordozer.searchengine..*)")
     public Object logStartAndEnd(final ProceedingJoinPoint pjp) throws Throwable {

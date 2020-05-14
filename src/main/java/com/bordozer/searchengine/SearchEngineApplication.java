@@ -1,6 +1,7 @@
 package com.bordozer.searchengine;
 
 import com.bordozer.commons.config.Java8DateTimeConfiguration;
+import com.bordozer.commons.web.RequestIdFilter;
 import com.bordozer.searchengine.config.AopConfiguration;
 import com.bordozer.searchengine.config.SwaggerConfig;
 import com.bordozer.searchengine.config.WatchRequestIdFilter;
@@ -24,7 +25,15 @@ public class SearchEngineApplication {
 
     @Bean
     @Order(1)
-    public FilterRegistrationBean<WatchRequestIdFilter> requestIdFilter() {
+    public FilterRegistrationBean<RequestIdFilter> requestIdFilter() {
+        final FilterRegistrationBean<RequestIdFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new RequestIdFilter());
+        return registrationBean;
+    }
+
+    @Bean
+    @Order(2)
+    public FilterRegistrationBean<WatchRequestIdFilter> requestWatcherFilter() {
         final FilterRegistrationBean<WatchRequestIdFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new WatchRequestIdFilter());
         return registrationBean;
