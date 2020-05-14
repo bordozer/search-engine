@@ -1,5 +1,6 @@
 package com.bordozer.searchengine.service.impl;
 
+import com.bordozer.measury.stopwatcher.Watch;
 import com.bordozer.searchengine.converter.DocumentConverter;
 import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.entity.DocumentTokenEntity;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Watch
 public class SearchServiceImpl implements SearchService {
 
     private final SearchRepository searchRepository;

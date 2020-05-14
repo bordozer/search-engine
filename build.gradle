@@ -43,9 +43,11 @@ ext {
 
 dependencies {
     compile group: 'com.bordozer', name: 'commons', version: '3.33'
+    compile group: 'com.bordozer', name: 'measury', version: '2.13'
 
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+    compile group: 'org.springframework', name: 'spring-aspects'
 
     compile group: 'com.github.spotbugs', name: 'spotbugs', version: spotbugsVersion
     compileOnly group: 'com.github.spotbugs', name: 'spotbugs-annotations', version: spotbugsVersion

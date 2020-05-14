@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.bordozer.searchengine.config.AopConfiguration.WATCHER;
+
 @SuppressWarnings("checkstyle:magicnumber")
 @Slf4j
 @RestController
@@ -35,6 +37,9 @@ public class SearchEngineController {
     })
     public ResponseEntity<List<DocumentDto>> search(@RequestParam(value = "token") final List<String> tokens) {
         LOGGER.info("About to search documents by tokens '{}'", LoggableJson.of(tokens));
-        return ResponseEntity.ok(searchService.find(tokens));
+        WATCHER.reset();
+        final List<DocumentDto> documents = searchService.find(tokens);
+        WATCHER.buildReportMills();
+        return ResponseEntity.ok(documents);
     }
 }
