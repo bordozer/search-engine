@@ -11,6 +11,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
+@SuppressWarnings("PMD.AbstractClassWithoutAbstractMethod")
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @TestExecutionListeners({
@@ -24,5 +25,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 public abstract class AbstractDbUnitTest {
 
     protected AbstractDbUnitTest() {
+        // there is nothing here
     }
 }

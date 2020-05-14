@@ -4,14 +4,14 @@ import com.bordozer.commons.utils.FileUtils;
 import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.dto.ImmutableDocumentDto;
 import com.bordozer.searchengine.service.DocumentService;
+import lombok.SneakyThrows;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.persistence.EntityExistsException;
@@ -24,7 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(DocumentController.class)
-@ExtendWith({SpringExtension.class})
+@AutoConfigureMockMvc
+//@ExtendWith({SpringExtension.class})
 class DocumentControllerTest {
 
     private static final String DOC_KEY = "1024";
@@ -55,7 +56,8 @@ class DocumentControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    void shouldGetDocumentIfExists() throws Exception {
+    @SneakyThrows
+    void shouldGetDocumentIfExists() {
         // given
         final DocumentDto response = DocumentDto.builder()
                 .key(DOC_KEY)
@@ -72,7 +74,8 @@ class DocumentControllerTest {
     }
 
     @Test
-    void shouldReturnErrorIfIfDocumentDoesNotExist() throws Exception {
+    @SneakyThrows
+    void shouldReturnErrorIfIfDocumentDoesNotExist() {
         // given
         when(documentService.findByKey(DOC_KEY)).thenThrow(new NoSuchElementException("Document with key '1024' not found"));
 
@@ -81,12 +84,13 @@ class DocumentControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
         )
                 .andExpect(status().isUnprocessableEntity())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(GET_NOT_EXISTING_DOC_EXPECTED_RESPONSE));
     }
 
     @Test
-    void shouldCreateNewDocument() throws Exception {
+    @SneakyThrows
+    void shouldCreateNewDocument() {
         // given
         final ImmutableDocumentDto dto = DocumentDto.builder()
                 .key(DOC_KEY)
@@ -96,16 +100,17 @@ class DocumentControllerTest {
 
         // when
         mockMvc.perform(post(ADD_DOC_URL)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(CREATE_NEW_DOC_REQUEST)
         )
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(CREATE_NEW_DOC_EXPECTED_RESPONSE));
     }
 
     @Test
-    void shouldReturnErrorIfDocumentKeyAlreadyExists() throws Exception {
+    @SneakyThrows
+    void shouldReturnErrorIfDocumentKeyAlreadyExists() {
         // given
         final ImmutableDocumentDto dto = DocumentDto.builder()
                 .key(DOC_KEY)
@@ -115,53 +120,56 @@ class DocumentControllerTest {
 
         // when
         mockMvc.perform(post(ADD_DOC_URL)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(CREATE_NEW_DOC_REQUEST)
         )
                 .andExpect(status().isExpectationFailed())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(DOC_ALREADY_EXISTS_EXPECTED_RESPONSE));
     }
 
     @Test
-    void shouldReturnErrorIfNotAllFieldsProvided() throws Exception {
+    @SneakyThrows
+    void shouldReturnErrorIfNotAllFieldsProvided() {
         // given
 
         // when
         mockMvc.perform(post(ADD_DOC_URL)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(CREATE_NEW_DOC_WRONG_REQUEST)
         )
                 .andExpect(status().isBadRequest())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(Matchers.containsString("some of required attributes are not set [content]")));
     }
 
     @Test
-    void shouldReturnErrorIfSpareFieldProvided() throws Exception {
+    @SneakyThrows
+    void shouldReturnErrorIfSpareFieldProvided() {
         // given
 
         // when
         mockMvc.perform(post(ADD_DOC_URL)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(CREATE_NEW_DOC_WITH_SPARE_FIELD_REQUEST)
         )
                 .andExpect(status().isBadRequest())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(Matchers.containsString("Unrecognized field \\\"unknownField\\\"")));
     }
 
     @Test
-    void shouldReturnErrorIfKeyIsTooLong() throws Exception {
+    @SneakyThrows
+    void shouldReturnErrorIfKeyIsTooLong() {
         // given
 
         // when
         mockMvc.perform(post(ADD_DOC_URL)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(NEW_DOC_WITH_TOO_LONG_KEY_REQUEST)
         )
                 .andExpect(status().isBadRequest())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(Matchers.containsString("default message [key],100,0]; default message [length must be between 0 and 100]]")));
     }
 }

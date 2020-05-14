@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@SuppressWarnings("checkstyle:magicnumber")
 @Slf4j
-@RestController()
+@RestController
 @RequestMapping("/search")
 @RequiredArgsConstructor
 @Api(value = "Search controller", tags = "Search for documents")
@@ -30,7 +31,7 @@ public class SearchEngineController {
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Search for documents by tokens", response = ResponseEntity.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Search for documents successfully done"),
+            @ApiResponse(code = 200, message = "Search for documents successfully done")
     })
     public ResponseEntity<List<DocumentDto>> search(@RequestParam(value = "token") final List<String> tokens) {
         LOGGER.info("About to search documents by tokens '{}'", LoggableJson.of(tokens));

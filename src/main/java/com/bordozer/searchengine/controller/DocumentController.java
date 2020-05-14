@@ -20,8 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+@SuppressWarnings("checkstyle:magicnumber")
 @Slf4j
-@RestController()
+@RestController
 @RequestMapping("/doc")
 @RequiredArgsConstructor
 @Api(value = "Document controller", tags = "Operations with Documents")

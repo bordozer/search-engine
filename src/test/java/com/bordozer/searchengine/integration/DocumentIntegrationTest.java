@@ -24,7 +24,7 @@ public class DocumentIntegrationTest extends AbstractIntegrationTest {
 
         RestAssured.baseURI = getBaseApi();
         RestAssured.useRelaxedHTTPSValidation();
-        SessionFilter sessionFilter = new SessionFilter();
+        final SessionFilter sessionFilter = new SessionFilter();
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
         final ValidatableResponse userRegisterResponse = RestAssured.given()
                 .log().all()

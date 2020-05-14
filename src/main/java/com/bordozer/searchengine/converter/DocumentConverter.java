@@ -4,7 +4,7 @@ import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.entity.DocumentEntity;
 import com.bordozer.searchengine.entity.DocumentTokenEntity;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;

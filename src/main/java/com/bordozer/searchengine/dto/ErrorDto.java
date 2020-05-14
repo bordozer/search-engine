@@ -8,7 +8,7 @@ import org.immutables.value.Value;
 @JsonDeserialize(
         builder = ImmutableErrorDto.Builder.class
 )
-@JsonIgnoreProperties({"initialized"})
+@JsonIgnoreProperties("initialized")
 @Value.Immutable
 @Value.Modifiable
 @ToString

@@ -8,10 +8,11 @@ import org.immutables.value.Value;
 
 import javax.validation.constraints.NotBlank;
 
+@SuppressWarnings("checkstyle:magicnumber")
 @JsonDeserialize(
         builder = ImmutableDocumentDto.Builder.class
 )
-@JsonIgnoreProperties({"initialized"})
+@JsonIgnoreProperties("initialized")
 @Value.Immutable
 @Value.Modifiable
 @ToString

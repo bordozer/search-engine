@@ -18,7 +18,7 @@ class DocumentRepositoryTest extends AbstractDbUnitTest {
     @Test
     @DatabaseSetup("/tests/DocumentRepositoryTest/initDB.xml")
     void shouldReturnNullIfUserIdNotFound() {
-        @CheckForNull DocumentEntity entity = documentRepository.findByKey("wrong key");
+        @CheckForNull final DocumentEntity entity = documentRepository.findByKey("wrong key");
 
         assertThat(entity).isNull();
     }
