@@ -33,7 +33,7 @@ group 'com.bordozer'
 version '1.00'
 archivesBaseName = 'search-engine'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.11
 
 ext {
     hibernateVersion = '5.4.1.Final'
