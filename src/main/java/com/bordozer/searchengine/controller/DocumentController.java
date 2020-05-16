@@ -1,6 +1,7 @@
 package com.bordozer.searchengine.controller;
 
 import com.bordozer.commons.utils.LoggableJson;
+import com.bordozer.measury.stopwatcher.WatchEntryPoint;
 import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.service.DocumentService;
 import io.swagger.annotations.Api;
@@ -26,6 +27,7 @@ import javax.validation.Valid;
 @RequestMapping("/doc")
 @RequiredArgsConstructor
 @Api(value = "Document controller", tags = "Operations with Documents")
+@WatchEntryPoint
 public class DocumentController {
 
     private final DocumentService documentService;

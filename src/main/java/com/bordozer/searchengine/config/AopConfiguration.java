@@ -41,9 +41,7 @@ public class AopConfiguration {
             final Watch watchEntryPoint = (Watch) watchAnnotation;
             final Stopwatcher watcher = StopwatchManager.instance(watchEntryPoint.value());
 
-            return watcher.measureAndReturn(getName(pjp), () -> {
-                return proceed(pjp);
-            });
+            return watcher.measureAndReturn(getName(pjp), () -> proceed(pjp));
         }
         return proceed(pjp);
     }
