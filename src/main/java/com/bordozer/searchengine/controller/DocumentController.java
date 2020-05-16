@@ -27,7 +27,7 @@ import javax.validation.Valid;
 @RequestMapping("/doc")
 @RequiredArgsConstructor
 @Api(value = "Document controller", tags = "Operations with Documents")
-@WatchEntryPoint
+@WatchEntryPoint(value = "document")
 public class DocumentController {
 
     private final DocumentService documentService;

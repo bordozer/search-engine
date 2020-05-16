@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Watch
+@Watch(value = "document")
 public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
