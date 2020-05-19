@@ -18,12 +18,12 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Watch
 public class SearchServiceImpl implements SearchService {
 
     private final SearchRepository searchRepository;
 
     @Override
+    @Watch
     public List<DocumentDto> find(final List<String> tokens) {
         final SearchCriteria searchCriteria = SearchCriteria.of(tokens);
         final DocumentTokenSpecification specification = new DocumentTokenSpecification(searchCriteria);

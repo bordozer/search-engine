@@ -25,7 +25,6 @@ import java.util.List;
 @RequestMapping("/search")
 @RequiredArgsConstructor
 @Api(value = "Search controller", tags = "Search for documents")
-@WatchEntryPoint
 public class SearchEngineController {
 
     private final SearchService searchService;
@@ -35,6 +34,7 @@ public class SearchEngineController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Search for documents successfully done")
     })
+    @WatchEntryPoint
     public ResponseEntity<List<DocumentDto>> search(@RequestParam(value = "token") final List<String> tokens) {
         LOGGER.info("About to search documents by tokens '{}'", LoggableJson.of(tokens));
         final List<DocumentDto> documents = searchService.find(tokens);

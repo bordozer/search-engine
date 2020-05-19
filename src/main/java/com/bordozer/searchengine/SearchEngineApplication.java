@@ -2,7 +2,7 @@ package com.bordozer.searchengine;
 
 import com.bordozer.commons.config.Java8DateTimeConfiguration;
 import com.bordozer.commons.web.RequestIdFilter;
-import com.bordozer.searchengine.config.AopConfiguration;
+import com.bordozer.searchengine.config.AopConfig;
 import com.bordozer.searchengine.config.SwaggerConfig;
 import com.bordozer.searchengine.config.WatchRequestIdFilter;
 import org.springframework.boot.SpringApplication;
@@ -16,7 +16,7 @@ import org.springframework.core.annotation.Order;
 @SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 @Configuration
 @SpringBootApplication
-@Import({Java8DateTimeConfiguration.class, SwaggerConfig.class, AopConfiguration.class})
+@Import({Java8DateTimeConfiguration.class, SwaggerConfig.class, AopConfig.class})
 public class SearchEngineApplication {
 
     public static void main(final String[] args) {
