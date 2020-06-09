@@ -1,6 +1,6 @@
 package com.bordozer.searchengine.service.impl;
 
-import com.bordozer.measury.stopwatcher.Watch;
+import com.bordozer.measury.stopwatcher.ThreadWatch;
 import com.bordozer.searchengine.converter.DocumentConverter;
 import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.entity.DocumentTokenEntity;
@@ -23,7 +23,7 @@ public class SearchServiceImpl implements SearchService {
     private final SearchRepository searchRepository;
 
     @Override
-    @Watch
+    @ThreadWatch
     public List<DocumentDto> find(final List<String> tokens) {
         final SearchCriteria searchCriteria = SearchCriteria.of(tokens);
         final DocumentTokenSpecification specification = new DocumentTokenSpecification(searchCriteria);

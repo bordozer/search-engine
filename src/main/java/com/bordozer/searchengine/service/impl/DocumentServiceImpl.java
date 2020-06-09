@@ -1,6 +1,5 @@
 package com.bordozer.searchengine.service.impl;
 
-import com.bordozer.measury.stopwatcher.Watch;
 import com.bordozer.searchengine.converter.DocumentConverter;
 import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.entity.DocumentEntity;
@@ -18,7 +17,6 @@ import java.util.NoSuchElementException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Watch(value = "document")
 public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;

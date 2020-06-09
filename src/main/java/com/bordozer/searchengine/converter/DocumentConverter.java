@@ -1,5 +1,6 @@
 package com.bordozer.searchengine.converter;
 
+import com.bordozer.measury.stopwatcher.ThreadWatch;
 import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.entity.DocumentEntity;
 import com.bordozer.searchengine.entity.DocumentTokenEntity;
@@ -19,6 +20,7 @@ public final class DocumentConverter {
     private DocumentConverter() {
     }
 
+    @ThreadWatch
     public static DocumentEntity toEntity(final DocumentDto dto) {
         Objects.requireNonNull(dto, "Dto must nit be null");
 
@@ -35,6 +37,7 @@ public final class DocumentConverter {
         return documentEntity;
     }
 
+    @ThreadWatch
     public static DocumentDto toDto(final DocumentEntity entity) {
         Objects.requireNonNull(entity, "Entity must nit be null");
 

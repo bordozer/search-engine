@@ -1,6 +1,7 @@
 package com.bordozer.searchengine.config;
 
 import com.bordozer.measury.stopwatcher.StopwatchManager;
+import com.bordozer.measury.stopwatcher.Stopwatcher;
 import org.slf4j.MDC;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -17,8 +18,9 @@ public class WatchRequestIdFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response,
                                     final FilterChain filterChain) throws ServletException, IOException {
-        StopwatchManager.getWatchers()
-                .forEach(watcher -> watcher.setReportName(MDC.get(LOG_TRACE_ID)));
+        final Stopwatcher stopwatcher = StopwatchManager.forThread();
+        stopwatcher.setReportName(MDC.get(LOG_TRACE_ID));
         filterChain.doFilter(request, response);
+        stopwatcher.buildReportMills();
     }
 }

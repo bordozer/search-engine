@@ -1,0 +1,8 @@
+<aspectj>
+    <aspects>
+        <aspect name="com.bordozer.measury.stopwatcher.AopConfiguration"/>
+        <!--<weaver options="-verbose -showWeaveInfo">
+            <include within="com.bordozer.measury.stopwatcher.*" />
+        </weaver>-->
+    </aspects>
+</aspectj>

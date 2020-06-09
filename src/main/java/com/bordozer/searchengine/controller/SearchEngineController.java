@@ -1,7 +1,7 @@
 package com.bordozer.searchengine.controller;
 
 import com.bordozer.commons.utils.LoggableJson;
-import com.bordozer.measury.stopwatcher.WatchEntryPoint;
+import com.bordozer.measury.stopwatcher.ThreadWatch;
 import com.bordozer.searchengine.dto.DocumentDto;
 import com.bordozer.searchengine.service.SearchService;
 import io.swagger.annotations.Api;
@@ -34,7 +34,7 @@ public class SearchEngineController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Search for documents successfully done")
     })
-    @WatchEntryPoint
+    @ThreadWatch
     public ResponseEntity<List<DocumentDto>> search(@RequestParam(value = "token") final List<String> tokens) {
         LOGGER.info("About to search documents by tokens '{}'", LoggableJson.of(tokens));
         final List<DocumentDto> documents = searchService.find(tokens);
