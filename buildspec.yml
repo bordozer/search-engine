@@ -16,4 +16,5 @@ artifacts:
   files:
     - build/libs/search-engine-1.00.jar
     - appspec.yml
+  name: $ARTIFACT_NAME
   discard-paths: yes

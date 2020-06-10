@@ -27,3 +27,6 @@
 /.nb-gradle/
 
 /db_storage/
+/terraform/api/.terraform/
+*.tfstate
+*.tfstate.backup
