@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+
     <property name="log.files.path" value="/var/log/bordozer/search-engine"/>
     <property name="service.name" value="search-engine"/>
     <property name="pattern" value="%-4r, %date{yyyy-MM-dd HH:mm:ss.SSS}, [%thread] %-5level, %logger{5}, %m%n"/>
