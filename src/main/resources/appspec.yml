@@ -1,0 +1,5 @@
+version: 0.0
+os: linux
+files:
+  - source: ./search-engine-1.00.jar
+    destination: /tmp
