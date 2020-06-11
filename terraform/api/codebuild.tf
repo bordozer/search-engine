@@ -3,6 +3,7 @@ resource "aws_codebuild_project" "example" {
   description   = "${var.service_instance_name} build project"
   build_timeout = "10" // How long in minutes from 5 to 480 (8 hours). The default is 60 minutes
   service_role  = aws_iam_role.service_role.arn
+  badge_enabled = true
 
   artifacts {
     type = "S3"
