@@ -1,13 +1,13 @@
 resource "aws_codebuild_project" "example" {
   name          = "tf-${var.service_instance_name}-build-project"
   description   = "${var.service_instance_name} build project"
-  build_timeout = "5" // How long in minutes from 5 to 480 (8 hours). The default is 60 minutes
+  build_timeout = "10" // How long in minutes from 5 to 480 (8 hours). The default is 60 minutes
   service_role  = aws_iam_role.service_role.arn
 
   artifacts {
     type = "S3"
     location               = var.s3_bucket_artifacts
-    path                   = "${var.service_name}"
+    path                   = var.service_name
     override_artifact_name = true
     name                   = "${var.service_instance_name}.jar"
     namespace_type         = "BUILD_ID"
