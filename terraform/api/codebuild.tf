@@ -39,7 +39,7 @@ resource "aws_codebuild_project" "default" {
   logs_config {
     cloudwatch_logs {
       status      = "ENABLED"
-      group_name  = "log-group"
+      group_name  = aws_cloudwatch_log_group.default.name
       stream_name = "log-stream"
     }
 
