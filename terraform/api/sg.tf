@@ -4,15 +4,7 @@ resource "aws_security_group" "build_sg" {
 
   vpc_id = var.vpc
 
-  # Regular HTTP access for sitecore instance
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = [ "0.0.0.0/0" ]
-  }
-
-  # Access from LB to everywhere
+  # Access to everywhere
   egress {
     from_port = 0
     to_port = 0
