@@ -11,7 +11,7 @@ resource "aws_codebuild_project" "default" {
     path                   = var.service_name
     override_artifact_name = true
     name                   = "${var.service_instance_name}.jar"
-    namespace_type         = "BUILD_ID"
+//    namespace_type         = "BUILD_ID"
     packaging              = "NONE"
   }
 
@@ -32,15 +32,9 @@ resource "aws_codebuild_project" "default" {
     }
     environment_variable {
       name  = "ARTIFACT_NAME"
-      value = "env-${var.service_instance_name}.jar"
+      value = "${var.service_instance_name}.jar" /* is used in buildspec.yml as artifact name */
       type  = "PLAINTEXT"
     }
-
-    /*environment_variable {
-      name  = "SOME_KEY2"
-      value = "SOME_VALUE2"
-      type  = "PARAMETER_STORE"
-    }*/
   }
 
   logs_config {
