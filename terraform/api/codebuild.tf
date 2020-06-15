@@ -10,7 +10,7 @@ resource "aws_codebuild_project" "default" {
     location               = var.s3_bucket_artifacts
     path                   = var.service_name
     override_artifact_name = true
-    name                   = "${var.service_instance_name}.jar" /* Overrided by environment_variable */
+//    name                   = "${var.service_instance_name}.jar"
     packaging              = "NONE"
   }
 
@@ -69,4 +69,20 @@ resource "aws_codebuild_source_credential" "github" {
   auth_type   = "PERSONAL_ACCESS_TOKEN"
   server_type = "GITHUB"
   token       = data.aws_ssm_parameter.github_access_token.value
+}
+
+resource "aws_codebuild_webhook" "default" {
+  project_name = aws_codebuild_project.default.name
+
+  filter_group {
+    filter {
+      type    = "EVENT"
+      pattern = "PULL_REQUEST_MERGED"
+    }
+
+    filter {
+      type    = "HEAD_REF"
+      pattern = "master"
+    }
+  }
 }
