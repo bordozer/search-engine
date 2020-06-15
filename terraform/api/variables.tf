@@ -5,6 +5,7 @@ variable "environment_name" {}
 /* GitHub */
 variable "project_source" { default = "https://github.com/bordozer/search-engine.git" }
 variable "branch" { default = "master" }
+variable "personal_access_token_name" { default = "github-access-token" }
 
 /* Amazon account network parameters */
 variable "vpc" { default = "vpc-74c2c81d" }

@@ -10,8 +10,7 @@ resource "aws_codebuild_project" "default" {
     location               = var.s3_bucket_artifacts
     path                   = var.service_name
     override_artifact_name = true
-    name                   = "${var.service_instance_name}.jar"
-//    namespace_type         = "BUILD_ID"
+    name                   = "${var.service_instance_name}.jar" /* Overrided by environment_variable */
     packaging              = "NONE"
   }
 
@@ -64,4 +63,10 @@ resource "aws_codebuild_project" "default" {
   source_version = var.branch
 
   tags = local.common_tags
+}
+
+resource "aws_codebuild_source_credential" "github" {
+  auth_type   = "PERSONAL_ACCESS_TOKEN"
+  server_type = "GITHUB"
+  token       = data.aws_ssm_parameter.github_access_token.value
 }
