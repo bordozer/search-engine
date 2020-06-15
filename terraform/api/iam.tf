@@ -28,7 +28,7 @@ resource "aws_iam_role_policy" "policy" {
         {
             "Effect": "Allow",
             "Resource": [
-                "*"
+                "${aws_cloudwatch_log_group.default.arn}"
             ],
             "Action": [
                 "logs:CreateLogGroup",
@@ -59,7 +59,7 @@ resource "aws_iam_role_policy" "policy" {
                 "codebuild:BatchPutTestCases"
             ],
             "Resource": [
-                "${aws_cloudwatch_log_group.default.arn}"
+                "*"
             ]
         }
     ]
