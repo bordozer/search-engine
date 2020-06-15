@@ -1,4 +1,4 @@
-resource "aws_codebuild_project" "example" {
+resource "aws_codebuild_project" "default" {
   name          = "tf-${var.service_instance_name}-build-project"
   description   = "${var.service_instance_name} build project"
   build_timeout = "10" // How long in minutes from 5 to 480 (8 hours). The default is 60 minutes
