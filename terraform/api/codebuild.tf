@@ -61,10 +61,6 @@ resource "aws_codebuild_project" "default" {
     type            = "GITHUB"
     location        = var.project_source
     git_clone_depth = 1
-    /*auth {
-      type = "OAUTH"
-      resource = ""
-    }*/
 
     git_submodules_config {
       fetch_submodules = true
@@ -72,16 +68,6 @@ resource "aws_codebuild_project" "default" {
   }
 
   source_version = var.branch
-
-  vpc_config {
-    vpc_id = data.aws_vpc.vpc.id
-    subnets = [
-      data.aws_subnet.subnet1.id
-    ]
-    security_group_ids = [
-      aws_security_group.build_sg.id,
-    ]
-  }
 
   tags = local.common_tags
 }
