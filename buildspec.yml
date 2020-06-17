@@ -16,7 +16,7 @@ phases:
     commands:
       - echo Build completed on `date`
 reports:
-  junit-report:
+  tests-report:
     files:
       - '**/*'
     base-directory: 'build/test-results/test'
