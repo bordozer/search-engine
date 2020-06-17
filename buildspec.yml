@@ -19,7 +19,9 @@ reports:
   junit-report:
     files:
       - '**/*'
-    base-directory: 'build/reports/tests/test'
+    base-directory: 'build/test-results/test'
+    discard-paths: false
+    file-format: JunitXml
 artifacts:
   files:
     - build/libs/search-engine-1.00.jar
