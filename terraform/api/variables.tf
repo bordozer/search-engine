@@ -2,11 +2,6 @@ variable "service_name" { default = "search-engine-api" }
 variable "service_instance_name" {}
 variable "environment_name" {}
 
-/* GitHub */
-variable "project_source" { default = "https://github.com/bordozer/search-engine.git" }
-variable "branch" { default = "master" }
-variable "personal_access_token_name" { default = "github-access-token" }
-
 /* Amazon account network parameters */
 variable "vpc" { default = "vpc-74c2c81d" }
 variable "aws_region" { default = "eu-west-3" }
@@ -28,6 +23,11 @@ variable "subnets" {
 /* S3 buckets */
 variable "s3_bucket_artifacts" { default = "bordozer-artifacts" }
 variable "s3_bucket_logs" { default = "bordozer-logs" }
+
+/* GitHub */
+variable "project_source" { default = "https://github.com/bordozer/search-engine.git" }
+variable "branch" { default = "master" }
+variable "access_token_ssm_parameter_name" { default = "github-access-token" }
 
 /* common vars */
 locals {

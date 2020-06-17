@@ -68,7 +68,7 @@ resource "aws_codebuild_project" "default" {
 resource "aws_codebuild_source_credential" "github" {
   auth_type   = "PERSONAL_ACCESS_TOKEN"
   server_type = "GITHUB"
-  token       = data.aws_ssm_parameter.github_access_token.value
+  token       = data.aws_ssm_parameter.access_token.value
 }
 
 resource "aws_codebuild_webhook" "default" {

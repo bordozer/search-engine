@@ -15,7 +15,7 @@ data "aws_s3_bucket" "s3_bucket_logs" {
   bucket = var.s3_bucket_logs
 }
 
-data "aws_ssm_parameter" "github_access_token" {
-  name            = var.personal_access_token_name
+data "aws_ssm_parameter" "access_token" {
+  name            = var.access_token_ssm_parameter_name
   with_decryption = true
 }
