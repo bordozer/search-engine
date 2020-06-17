@@ -4,14 +4,22 @@ phases:
   install:
     runtime-versions:
       java: openjdk11
-  build:
+  pre_build:
     commands:
       - echo Build started on `date`
+  build:
+    commands:
+      - ./gradlew clean build -x check
+      - ./gradlew checkstyleMain checkstyleTest pmdMain pmdTest
       - ./gradlew test
   post_build:
     commands:
       - echo Build completed on `date`
-      - ./gradlew clean build -x check
+reports:
+  junit-report:
+    files:
+      - '**/*'
+    base-directory: 'build/reports/tests/test'
 artifacts:
   files:
     - build/libs/search-engine-1.00.jar

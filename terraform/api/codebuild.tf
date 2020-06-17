@@ -86,3 +86,18 @@ resource "aws_codebuild_webhook" "default" {
     }
   }
 }
+
+/*resource "aws_codebuild_reportgroup" "test_report" {
+  name = var.service_instance_name
+  type = "TEST"
+  exportConfig = {
+    exportConfigType: "NO_EXPORT"
+    s3Destination: {
+      bucket: "my-bucket"
+      path: "my-custom-prefix"
+      packaging: "NONE"
+      encryptionKey: "my-kms-key"
+      encryptionDisabled: true
+    }
+  }
+}*/
