@@ -104,13 +104,10 @@ test {
     useJUnitPlatform()
     systemProperties System.properties
     testLogging {
-        events 'PASSED', 'FAILED', 'SKIPPED'
+        events "started", "passed", "skipped", "failed", "standardOut", "standardError"
+        exceptionFormat "full"
         showStandardStreams = true
     }
-    /*doFirst {
-        def weaver = configurations.compile.find { it.name.contains("aspectjweaver") }
-        jvmArgs = jvmArgs << "-javaagent:$weaver"
-    }*/
 }
 
 aspectj {
