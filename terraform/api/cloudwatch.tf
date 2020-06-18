@@ -23,10 +23,10 @@ PATTERN
 resource "aws_cloudwatch_event_target" "sns" {
   rule      = aws_cloudwatch_event_rule.codebuild.name
   target_id = "SendToSNS"
-  arn       = data.aws_sns_topic.notification.arn
+  arn       = aws_sns_topic.codebuild_notification.arn
 }
 
 resource "aws_sns_topic_policy" "default" {
-  arn    = data.aws_sns_topic.notification.arn
+  arn    = aws_sns_topic.codebuild_notification.arn
   policy = data.aws_iam_policy_document.sns_topic_policy.json
 }

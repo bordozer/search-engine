@@ -20,10 +20,6 @@ data "aws_ssm_parameter" "access_token" {
   with_decryption = true
 }
 
-data "aws_sns_topic" "notification" {
-  name = var.sns_topic_name
-}
-
 data "aws_iam_policy_document" "sns_topic_policy" {
   statement {
     effect  = "Allow"
@@ -35,7 +31,7 @@ data "aws_iam_policy_document" "sns_topic_policy" {
     }
 
     resources = [
-      data.aws_sns_topic.notification.arn
+      aws_sns_topic.codebuild_notification.arn
     ]
   }
 }

@@ -30,6 +30,7 @@ variable "branch" { default = "master" }
 variable "access_token_ssm_parameter_name" { default = "github-access-token" }
 
 variable "sns_topic_name" { default = "search-engine-notification" }
+variable "notification_emails" { default = "bordozer@gmail.com" }
 
 /* common vars */
 locals {
