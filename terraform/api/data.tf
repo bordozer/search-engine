@@ -19,3 +19,24 @@ data "aws_ssm_parameter" "access_token" {
   name            = var.access_token_ssm_parameter_name
   with_decryption = true
 }
+
+data "aws_sns_topic" "notification" {
+  name = var.sns_topic_name
+}
+
+data "aws_iam_policy_document" "sns_topic_policy" {
+  statement {
+    effect  = "Allow"
+    actions = ["SNS:Publish"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["events.amazonaws.com"]
+    }
+
+    resources = [
+      data.aws_sns_topic.notification.arn
+    ]
+  }
+}
+

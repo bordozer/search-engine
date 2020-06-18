@@ -29,6 +29,8 @@ variable "project_source" { default = "https://github.com/bordozer/search-engine
 variable "branch" { default = "master" }
 variable "access_token_ssm_parameter_name" { default = "github-access-token" }
 
+variable "sns_topic_name" { default = "search-engine-notification" }
+
 /* common vars */
 locals {
   common_tags = {
