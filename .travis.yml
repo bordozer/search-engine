@@ -18,9 +18,12 @@ install:
   ./gradlew assemble
 jobs:
   include:
+    - stage: SCA
+      jdk: openjdk11
+      script: ./gradlew checkstyleMain checkstyleTest pmdMain pmdTest
     - stage: test
       jdk: openjdk11
       script: ./gradlew test
     - stage: build
       jdk: openjdk11
-      script: ./gradlew buildUI build -x check
+      script: ./gradlew build -x check
