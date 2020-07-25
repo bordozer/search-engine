@@ -1,5 +1,7 @@
 # Search engine
 
+[![bordozer](https://travis-ci.org/bordozer/search-engine.svg?branch=master)](https://travis-ci.org/bordozer/search-engine.svg?branch=master)
+
 ### Requirements
 A simple search engine
 Service works with small documents where each document contains a series of tokens (words) separated by spaces.
