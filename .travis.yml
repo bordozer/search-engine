@@ -1,0 +1,26 @@
+language: java
+sudo: false
+jdk:
+  - openjdk11
+#before_cache:
+#  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+#  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle
+script:
+  - jdk_switcher use openjdk11
+  - export JAVA_HOME=$HOME/openjdk11
+  - $TRAVIS_BUILD_DIR/install-jdk.sh --install openjdk11 --target $JAVA_HOME
+notifications:
+  email: false
+install:
+  ./gradlew assemble
+jobs:
+  include:
+    - stage: test
+      jdk: openjdk11
+      script: ./gradlew test
+    - stage: build
+      jdk: openjdk11
+      script: ./gradlew buildUI build -x check
