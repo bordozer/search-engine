@@ -12,18 +12,19 @@ script:
   - jdk_switcher use openjdk11
   - export JAVA_HOME=$HOME/openjdk11
   - $TRAVIS_BUILD_DIR/install-jdk.sh --install openjdk11 --target $JAVA_HOME
+  - mkdir -p /temp/search-engine/logs
 notifications:
   email: false
 install:
   ./gradlew assemble
 jobs:
   include:
-    - stage: SCA
+    - stage: "SCA"
       jdk: openjdk11
       script: ./gradlew checkstyleMain checkstyleTest pmdMain pmdTest
-    - stage: test
+    - stage: "Tests"
       jdk: openjdk11
       script: ./gradlew test
-    - stage: build
+    - stage: "Build & artifact"
       jdk: openjdk11
       script: ./gradlew build -x check
