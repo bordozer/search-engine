@@ -1,12 +1,12 @@
 resource "aws_cloudwatch_log_group" "default" {
-  name = "tf-${var.service_instance_name}"
+  name = "tf-${var.service_name}"
 
   tags = local.common_tags
 }
 
 resource "aws_cloudwatch_event_rule" "codebuild" {
-  name        = "tf-${var.service_instance_name}-build-rule"
-  description = "CodeBuild events for ${var.service_instance_name}"
+  name        = "tf-${var.service_name}-build-rule"
+  description = "CodeBuild events for ${var.service_name}"
 
   event_pattern = <<PATTERN
 {

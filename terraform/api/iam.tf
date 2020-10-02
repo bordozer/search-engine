@@ -1,5 +1,5 @@
 resource "aws_iam_role" "service_role" {
-  name = "tf-${var.service_instance_name}-iam-role"
+  name = "tf-${var.service_name}-iam-role"
 
   assume_role_policy = <<EOF
 {
@@ -19,7 +19,7 @@ EOF
 
 resource "aws_iam_role_policy" "policy" {
   role = aws_iam_role.service_role.name
-  name = "tf-${var.service_instance_name}-policy"
+  name = "tf-${var.service_name}-policy"
 
   policy = <<EOF
 {

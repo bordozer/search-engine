@@ -1,6 +1,6 @@
 resource "aws_security_group" "build_sg" {
-  name = "tf-${var.service_instance_name}-cb-sg"
-  description = "${var.service_instance_name} CodeBuild SG"
+  name = "tf-${var.service_name}-cb-sg"
+  description = "${var.service_name} CodeBuild SG"
 
   vpc_id = var.vpc
 

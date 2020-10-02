@@ -1,5 +1,5 @@
 resource "aws_sns_topic" "codebuild_notification" {
-  name = "tf-${var.service_instance_name}-notification"
+  name = "tf-${var.service_name}-notification"
 
   provisioner "local-exec" {
     command = "sh ./files/sns_subscription.sh"

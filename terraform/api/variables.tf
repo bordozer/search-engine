@@ -1,16 +1,18 @@
-variable "service_name" { default = "search-engine-api" }
-variable "service_instance_name" {}
-variable "environment_name" {}
+variable "service_name" {}
 
 /* Amazon account network parameters */
-variable "vpc" { default = "vpc-74c2c81d" }
-variable "aws_region" { default = "eu-west-3" }
+variable "vpc" {
+  default = "vpc-74c2c81d"
+}
+variable "aws_region" {
+  default = "eu-west-3"
+}
 variable "availability_zones" {
-        default = [
-          "eu-west-3a",
-          "eu-west-3b",
-          "eu-west-3c"
-        ]
+  default = [
+    "eu-west-3a",
+    "eu-west-3b",
+    "eu-west-3c"
+  ]
 }
 variable "subnets" {
   default = [
@@ -21,22 +23,35 @@ variable "subnets" {
 }
 
 /* S3 buckets */
-variable "s3_bucket_artifacts" { default = "bordozer-artifacts" }
-variable "s3_bucket_logs" { default = "bordozer-logs" }
+variable "s3_bucket_artifacts" {
+  default = "bordozer-artifacts"
+}
+variable "s3_bucket_logs" {
+  default = "bordozer-logs"
+}
 
 /* GitHub */
-variable "project_source" { default = "https://github.com/bordozer/search-engine.git" }
-variable "branch" { default = "master" }
-variable "access_token_ssm_parameter_name" { default = "github-access-token" }
+variable "project_source" {
+  default = "https://github.com/bordozer/search-engine.git"
+}
+variable "branch" {
+  default = "master"
+}
+variable "access_token_ssm_parameter_name" {
+  default = "github-access-token"
+}
 
-variable "sns_topic_name" { default = "search-engine-notification" }
-variable "notification_emails" { default = "bordozer@gmail.com" }
+variable "sns_topic_name" {
+  default = "search-engine-notification"
+}
+variable "notification_emails" {
+  default = "bordozer@gmail.com"
+}
 
 /* common vars */
 locals {
   common_tags = {
-    Name = var.service_instance_name
+    Name = var.service_name
     ServiceName = var.service_name
-    Environment = var.environment_name
   }
 }
